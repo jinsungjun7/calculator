@@ -47,13 +47,16 @@ function addDigit(digit) {
         botScreen.textContent = '';
         isNewNum = false;
     } else if (digit == '.' && botScreen.textContent.search(/[.]/) >= 0) { //checks if there is a period, special syntax for that; can't just use '.'
-        console.log(botScreen.textContent.search('.'));
         return;
     } else if (isEqualed) {
         allClear();
     }
 
     botScreen.textContent += `${digit}`;
+    
+    if (topScreen.textContent.length > 0) {
+        readyEqual = true;
+    }
 }
 
 function addFunction(func) {
@@ -68,40 +71,52 @@ function addFunction(func) {
         if (operator == '/' && Number(botScreen.textContent) === 0) {
             alert("You can't divide my zero! Please enter a new value.");
             return;
+        } else if (!readyEqual) {
+            topScreen.textContent = `${topScreen.textContent.slice(0,topScreen.textContent.length - 1)}${func}`;
+            operator = func;
+            return;
         }
+
         if (operator == "") {
             runningNum = Number(botScreen.textContent);
-            topScreen.textContent += ` ${botScreen.textContent} ${func}`;
+            topScreen.textContent += ` ${round3Dec(botScreen.textContent)} ${func}`;
         } else {
-            topScreen.textContent += ` ${botScreen.textContent} ${func}`;
+            topScreen.textContent += ` ${round3Dec(botScreen.textContent)} ${func}`;
             runningNum = operate(operator, runningNum, Number(botScreen.textContent));
         }
         botScreen.textContent = round3Dec(runningNum);     
-        isEqualed = true;   
+        isEqualed = true;  
+        readyEqual = false; //makes sure that it reset top with the resulting value in runningValue
         return;
 
     } else if (func == '=' && isEqualed == true) {
         return;
     } 
 
-    if (isEqualed) {
-        topScreen.textContent = `${runningNum} ${func}`;
+    if (isEqualed && !readyEqual) {
+        topScreen.textContent = `${round3Dec(runningNum)} ${func}`;
         isEqualed = false;
+        operator = func;
+        return;
+    }
+
+    if (!readyEqual) {
+        topScreen.textContent = `${topScreen.textContent.slice(0,topScreen.textContent.length - 1)}${func}`;
         operator = func;
         return;
     }
 
     if (topScreen.textContent.length === 0) {
         operator = func;
-        runningNum = Number(botScreen.textContent);
-        topScreen.textContent = `${botScreen.textContent} ${operator}`;        
+        runningNum = round3Dec(Number(botScreen.textContent));
+        topScreen.textContent = `${runningNum} ${operator}`;        
     } else {
         runningNum = operate(operator, runningNum, Number(botScreen.textContent));
-        topScreen.textContent += ` ${botScreen.textContent} ${func}`;
+        topScreen.textContent += ` ${round3Dec(botScreen.textContent)} ${func}`;
         botScreen.textContent = round3Dec(runningNum);
         operator = func;
-
     }
+    readyEqual = false;
 }
 
 function keyInput(e) {
@@ -109,16 +124,19 @@ function keyInput(e) {
         shiftKey = true;
     }
 
-    if (!shiftKey && (e.keyCode >= 48 && e.keyCode <= 57 || e.keyCode >= 96 && e.keyCode <= 105 || e.keyCode == 190 || e.keyCode == 110)) {
+    if (!shiftKey && (Number(e.key) >= 0 && Number(e.key) <= 9)) {
         addDigit(e.key);
         shiftKey = false;
-    } else if (e.key == '+' || e.key == '-' || e.key == '=' || e.key == '/' || e.key == '%' || e.key == '*' || e.key == 'Enter') {
+        return;
+    }
+    
+    shiftKey = false;
+    if (e.key == '+' || e.key == '-' || e.key == '=' || e.key == '/' || e.key == '%' || e.key == '*' || e.key == 'Enter') {
         if (e.key == 'Enter') {
             addFunction('=');
         } else {
             addFunction(e.key);
         }
-        shiftKey = false; 
     } else if (e.key == 'Backspace') {
         backspace();
     } else {
@@ -133,6 +151,8 @@ function allClear() {
     runningNum = 0;
     operator = '';
     isEqualed = false;
+    readyEqual = true;
+    shiftKey = false;
 }
 
 function isValid(func) {
@@ -164,19 +184,19 @@ let operator = '';
 let runningNum = 0;
 let isEqualed = false;
 let shiftKey = false;
-let readyEqual = false;
+let readyEqual = true;
 
 const digits = document.querySelectorAll('.btn.digit');
 digits.forEach(digit => digit.addEventListener('click', (e) => {
     addDigit(digit.value);
-    readyEqual = true;
+   
 
 }));
 
 const functions = document.querySelectorAll('.btn.function');
 functions.forEach(func => func.addEventListener('click', (e) => {
     addFunction(func.value);
-    readyEqual = false;
+    
 
 }));
 
