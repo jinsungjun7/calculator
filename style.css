@@ -1,50 +1,74 @@
 body {
     display:flex;
-    flex-direction:column;
+    flex-direction: column;
+    gap:64px;
+    justify-content:center;
     align-items:center;
 }
 
 .header {
+    margin-top:50px;
     font-size:36px;
     font-weight:700;
 }
 
-.screen {
-    display:flex;
-    justify-content:end;
-}
 .body {
     display:flex;
-}
-
-.leftContainer {
-    display:flex;
     flex-direction:column;
+    max-width:300px;
+    min-height:400px;
+    border: 1px solid black;
+    padding:36px 18px;
+    background:azure;
+    
 }
-
-.clearDelete {
+.screen {
+    min-height:100px;
     display:flex;
-}
-
-.topDigit, .midDigit, .botDigit {
-    display:flex;
-
-}
-
-.rightContainer {
-    display:flex;
+    overflow-wrap: break-word;
     flex-direction:column;
+    justify-content:center;
+    align-items:flex-end;
+    border: .5px solid black;
+    padding-right:5px;
+    font-size:28px;
+    background:#d3eaff;
+    margin-bottom:18px;
 }
 
-.bottomContainer {
+.botScreen, .topScreen {
+    width:100%;
+    text-align:right;
+}
+.topScreen {
+    font-size:16px;
+}
+
+.btnContainer {
+    display:flex;
     flex:1;
-    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    min-height:250px
+    
+    
 }
 
-.digit {
-    border: .1px solid black;
+.btnContainer > .btn{
+    width:25%;
+    font-size:18px;
+    background:#d3eaff;
 }
 
-.clear, .delete {
-    border: .1px solid red;
+.btnContainer > .btn.del {
+    background:#F44336;
 }
+.btnContainer > .btn.function {
+    background:#357689;
+}
+.btnContainer > .special {
+    width:50%;
+}
+
+
+

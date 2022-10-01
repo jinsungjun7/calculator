@@ -10,45 +10,32 @@
 <body>
     <div class="header">Calculator</div>
     
-    <div class="calculator">
-        <div class="screen">3</div>
-
-        <div class="body">
-            <div class="leftContainer">
-                <div class="clearDelete">
-                    <div class="clear">CLEAR</div> <!--clear-->
-                    <div class="delete">DEL</div>
-                </div>
-                <div class="digitContainer">
-                    <div class="topDigit">
-                        <div class="digit">7</div>
-                        <div class="digit">8</div>
-                        <div class="digit">9</div>
-                    </div>
-                    <div class="midDigit">
-                        <div class="digit">4</div>
-                        <div class="digit">5</div>
-                        <div class="digit">6</div>
-                    </div>
-                    <div class="botDigit">
-                        <div class="digit">1</div>
-                        <div class="digit">2</div>
-                        <div class="digit">3</div>
-                    </div>
-                </div>
-            </div>
-            <div class="rightContainer">
-                <div class="function">+</div>
-                <div class="function">-</div>
-                <div class="function">x</div>
-                <div class="function">&divide;</div>
-            </div>
-            
+    <div class="body">
+        <div class="screen">
+            <div class="topScreen"></div>
+            <div class="botScreen"></div>
         </div>
-        <div class="bottomContainer">
-            <div class="digit">0</div>
-            <div class="digit">.</div>
-            <div class="equal">=</div>
+        <div class="btnContainer">
+            <button class="btn del AC" data-key="clear" value="AC">AC</button>
+            <button class="btn del C" data-key="delete" value="del">C</button>
+            <button class="btn function" data-key="modulus" value="%">mod</button>
+            <button class="btn function" data-key="divide" value="/">&divide;</button>
+            <button class="btn digit" data-key="seven" value="7">7</button>
+            <button class="btn digit" data-key="eight" value="8">8</button>
+            <button class="btn digit" data-key="nine" value="9">9</button>
+            <button class="btn function" data-key="multiply" value="x">x</button>
+            <button class="btn digit" data-key="four" value="4">4</button>
+            <button class="btn digit" data-key="five" value="5">5</button>
+            <button class="btn digit" data-key="six" value="6">6</button>
+            <button class="btn function" data-key="subtract" value="-">-</button>
+            <button class="btn digit" data-key="one" value="1">1</button>
+            <button class="btn digit" data-key="two" value="2">2</button>
+            <button class="btn digit" data-key="three" value="3">3</button>
+            <button class="btn function" data-key="add" value="+">+</button>
+            <button class="btn digit" data-key="zero" value="0">0</button>
+            <button class="btn digit" data-key="decimal" value=".">.</button>
+            <button class="btn  function special" data-key="equal" value="=">=</button>
+
         </div>
     </div>
 
