@@ -26,6 +26,7 @@ function operate(operator, n1, n2) {
         case '-':
             return subtract(n1, n2);
             break;
+        case '*':
         case 'x':
             return multiply(n1, n2);
             break;
@@ -104,7 +105,6 @@ function addFunction(func) {
 }
 
 function keyInput(e) {
-    console.log(e.key);
     if (e.keyCode == 16) {
         shiftKey = true;
     }
@@ -113,13 +113,14 @@ function keyInput(e) {
         addDigit(e.key);
         shiftKey = false;
     } else if (e.key == '+' || e.key == '-' || e.key == '=' || e.key == '/' || e.key == '%' || e.key == '*' || e.key == 'Enter') {
-        console.log('hit')
         if (e.key == 'Enter') {
             addFunction('=');
         } else {
             addFunction(e.key);
         }
         shiftKey = false; 
+    } else if (e.key == 'Backspace') {
+        backspace();
     } else {
         return;
     }
@@ -147,6 +148,15 @@ function round3Dec(value) {
     return Math.round(1000*(value))/1000;
 }
 
+function backspace() {
+    if (!isEqualed && !isNewNum) {
+        botScreen.textContent = botScreen.textContent.substring(0,botScreen.textContent.length-1);
+    } else {
+        return;
+    }
+}
+
+
 const topScreen = document.querySelector('.topScreen');
 const botScreen = document.querySelector('.botScreen');
 let isNewNum = false;
@@ -154,16 +164,19 @@ let operator = '';
 let runningNum = 0;
 let isEqualed = false;
 let shiftKey = false;
+let readyEqual = false;
 
 const digits = document.querySelectorAll('.btn.digit');
 digits.forEach(digit => digit.addEventListener('click', (e) => {
     addDigit(digit.value);
+    readyEqual = true;
 
 }));
 
 const functions = document.querySelectorAll('.btn.function');
 functions.forEach(func => func.addEventListener('click', (e) => {
     addFunction(func.value);
+    readyEqual = false;
 
 }));
 
@@ -174,11 +187,7 @@ AC.addEventListener('click', (e) => {
 
 const C = document.querySelector('.btn.C');
 C.addEventListener('click', (e) => {
-    if (!isEqualed) {
-        botScreen.textContent = botScreen.textContent.substring(0,botScreen.textContent.length-1);
-    } else {
-        return;
-    }
+    backspace();
 })
 
 window.addEventListener('keydown', keyInput);
